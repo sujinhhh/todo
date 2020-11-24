@@ -5,10 +5,6 @@ import Constants from "expo-constants";
 import _ from "lodash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import produce from "immer";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-
-import List from "./pages/List";
 
 AsyncStorage.getItem("list")
   .then((data) => {
@@ -83,7 +79,7 @@ const Title = styled.Text`
   border: 1px solid dodgerblue;
 `;
 
-export default function App() {
+export default function Todos() {
   const [list, setList] = useState([]);
   const [inputTodo, setInputTodo] = useState("");
   useEffect(() => {
@@ -169,12 +165,3 @@ export default function App() {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
