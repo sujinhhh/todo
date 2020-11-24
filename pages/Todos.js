@@ -79,7 +79,7 @@ const Title = styled.Text`
   border: 1px solid dodgerblue;
 `;
 
-export default function Todos() {
+export default function Todos({ navigation }) {
   const [list, setList] = useState([]);
   const [inputTodo, setInputTodo] = useState("");
   useEffect(() => {
@@ -104,7 +104,13 @@ export default function Todos() {
       >
         <HeaderContainer>
           <Title> ♥️ 오늘의 할일 ♥️ </Title>
-          <Button title="일기" color="#8c9eff" onPress={() => {}} />
+          <Button
+            title="일기장"
+            color="#8c9eff"
+            onPress={() => {
+              navigation.navigate("List");
+            }}
+          />
         </HeaderContainer>
         <Contents>
           <FlatList
@@ -122,9 +128,9 @@ export default function Todos() {
                   }}
                 >
                   {item.done ? (
-                    <IconImage source={require("./assets/jin.png")} />
+                    <IconImage source={require("../assets/jin.png")} />
                   ) : (
-                    <IconImage source={require("./assets/chan.png")} />
+                    <IconImage source={require("../assets/chan.png")} />
                   )}
                 </Check>
                 <TodoItemText>{item.todo}</TodoItemText>
