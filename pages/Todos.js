@@ -6,7 +6,7 @@ import _ from "lodash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import produce from "immer";
 
-AsyncStorage.getItem("list")
+AsyncStorage.getItem("todos")
   .then((data) => {
     console.log(data);
   })
@@ -24,6 +24,13 @@ const Container = styled.SafeAreaView`
 `;
 const Contents = styled.View`
   flex: 1;
+`;
+
+const Title = styled.Text`
+  font-size: 30px;
+  color: dodgerblue;
+
+  border: 1px solid dodgerblue;
 `;
 
 const HeaderContainer = styled.View`
@@ -72,29 +79,22 @@ const IconImage = styled.Image`
   height: 60px;
 `;
 
-const Title = styled.Text`
-  font-size: 30px;
-  color: dodgerblue;
-
-  border: 1px solid dodgerblue;
-`;
-
 export default function Todos({ navigation }) {
-  const [list, setList] = useState([]);
+  const [todos, setTodos] = useState([]);
   const [inputTodo, setInputTodo] = useState("");
   useEffect(() => {
-    AsyncStorage.getItem("list")
+    AsyncStorage.getItem("todos")
       .then((data) => {
         if (data !== null) {
-          setList(JSON.parse(data));
+          setTodos(JSON.parse(data));
         }
       })
       .catch((error) => console.log(error.massage));
   }, []);
 
   const store = (newList) => {
-    setList(newList);
-    AsyncStorage.setItem("list", JSON.stringify(newList));
+    setTodos(newList);
+    AsyncStorage.setItem("todos", JSON.stringify(newList));
   };
 
   return (
@@ -111,17 +111,25 @@ export default function Todos({ navigation }) {
               navigation.navigate("List");
             }}
           />
+          <Button
+            title="Game"
+            color="#ff1744"
+            onPress={() => {
+              navigation.navigate("Play");
+            }}
+          />
         </HeaderContainer>
+
         <Contents>
           <FlatList
-            data={list}
+            data={todos}
             renderItem={({ item }) => (
               <TodoItem>
                 <Check
                   onPress={() => {
                     store(
-                      produce(list, (draft) => {
-                        const index = list.indexOf(item);
+                      produce(todos, (draft) => {
+                        const index = todos.indexOf(item);
                         draft[index].done = !draft[index].done;
                       })
                     );
@@ -135,10 +143,10 @@ export default function Todos({ navigation }) {
                 </Check>
                 <TodoItemText>{item.todo}</TodoItemText>
                 <TotoItemButton
-                  color="pink"
+                  color="#b388ff"
                   title=" 삭제 "
                   onPress={() => {
-                    store(_.reject(list, (element) => element.id === item.id));
+                    store(_.reject(todos, (element) => element.id === item.id));
                   }}
                 />
               </TodoItem>
@@ -162,7 +170,7 @@ export default function Todos({ navigation }) {
                 todo: inputTodo,
                 done: false,
               };
-              store([...list, newItem]);
+              store([...todos, newItem]);
               setInputTodo("");
             }}
           />
