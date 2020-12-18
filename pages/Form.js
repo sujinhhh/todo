@@ -42,6 +42,7 @@ export default function Form({ navigation }) {
       list = JSON.parse(list);
     }
     list.push({
+      id: Math.random() * 1234,
       date,
       text,
     });

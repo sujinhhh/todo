@@ -18,12 +18,10 @@ export default function Play({ navigation }) {
     <Container>
       <Contents>
         <Title onPress={() => navigation.navigate("WordsGame")}>
-          <Text>초성게임</Text>
+          <Text>초성게임 GoGo</Text>
         </Title>
       </Contents>
-      <Button onPress={() => navigation.navigate("Todos")}>
-        일기 리스트 보기
-      </Button>
+      <Button onPress={() => navigation.navigate("Todos")}>홈으로</Button>
     </Container>
   );
 }

@@ -8,6 +8,7 @@ import Form from "./pages/Form";
 import Todos from "./pages/Todos";
 import Play from "./pages/Play";
 import WordsGame from "./pages/WordsGame";
+import { WordsList } from "./pages/WordsList";
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ function App() {
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Play" component={Play} />
         <Stack.Screen name="WordsGame" component={WordsGame} />
+        <Stack.Screen name="WordsList" component={WordsList} />
         <Stack.Screen
           name="Form"
           component={Form}

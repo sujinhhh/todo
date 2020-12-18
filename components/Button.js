@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 const Container = styled.TouchableOpacity`
   width: 100%;
   height: 50px;
-  background: #000000;
+  background: #ff80ab;
   justify-content: center;
   align-items: center;
 `;

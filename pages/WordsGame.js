@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import _ from "lodash";
-import wordsList from "./wordsList";
+import { WordsList } from "./WordsList";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -53,9 +53,14 @@ function getInitials(string) {
     .join("");
 }
 
-export default function WordsGame({ navigation }) {
-  const [quizList, setQuizList] = React.useState(_.shuffle(wordsList));
+const words = ({ words }) => {
+  return <WordsList words={words} />;
+};
+
+export default function WordsGame({ navigation, words }) {
+  const [quizList, setQuizList] = React.useState(_.shuffle(words));
   const [mode, setMode] = React.useState("quiz");
+
   const onPress = React.useCallback(() => {
     if (mode === "answer") {
       setQuizList(quizList.slice(1));
@@ -63,7 +68,8 @@ export default function WordsGame({ navigation }) {
     setMode(mode === "quiz" ? "answer" : "quiz");
   }, [mode]);
   const retry = React.useCallback(() => {
-    setQuizList(_.shuffle(wordsList));
+    console.log(words);
+    setQuizList(_.shuffle(words));
     setMode("quiz");
   }, [quizList]);
 
@@ -76,6 +82,13 @@ export default function WordsGame({ navigation }) {
           color="#8c9eff"
           onPress={() => {
             navigation.navigate("Todos");
+          }}
+        />
+        <HeadButton
+          title="초성단어 넣기"
+          color="#8c9eff"
+          onPress={() => {
+            navigation.navigate("WordsList");
           }}
         />
       </HeaderContainer>
