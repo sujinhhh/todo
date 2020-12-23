@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import _ from "lodash";
 import { FlatList } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -38,11 +38,34 @@ const WordsListContents = styled.View`
   margin-right: 10px;
 `;
 const WordButton = styled.Button``;
-export const Words = ({ name }) => {
+
+export const WordsContext = createContext([]);
+
+export const WordsContextProvider = ({ children }) => {
+  const [words, setWords] = useState([]);
+
+  const initData = async () => {
+    try {
+      const list = await AsyncStorage.getItem("words");
+      if (list !== null) {
+        setWords(JSON.parse(list));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    initData();
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem("words", JSON.stringify(words));
+  }, [words]);
+
   return (
-    <Container>
-      <Title> 초성게임 단어 추가하기 </Title>
-      <Label>{name}</Label>
-    </Container>
+    <WordsContext.Provider value={[words, setWords]}>
+      {children}
+    </WordsContext.Provider>
   );
 };

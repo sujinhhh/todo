@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import { reducer } from "./reducer";
 import _ from "lodash";
-import { WordsList } from "./WordsList";
+import { WordsContext } from "./WordsContextProvider";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -13,6 +14,12 @@ const Quiz = styled.Text`
   font-weight: bold;
   text-align: center;
 `;
+const Label = styled.Text`
+  font-size: 15px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 12px;
+`;
 
 const Title = styled.Text`
   font-size: 30px;
@@ -23,7 +30,6 @@ const Title = styled.Text`
 
 const HeaderContainer = styled.View`
   flex-direction: row;
-
   margin: 20px auto;
 `;
 
@@ -38,9 +44,6 @@ const Button = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
-const Label = styled.Text`
-  font-size: 20px;
-`;
 
 function getInitials(string) {
   return string
@@ -53,11 +56,8 @@ function getInitials(string) {
     .join("");
 }
 
-const words = ({ words }) => {
-  return <WordsList words={words} />;
-};
-
-export default function WordsGame({ navigation, words }) {
+export default function WordsGame({ navigation }) {
+  const [words, setWords] = useContext(WordsContext);
   const [quizList, setQuizList] = React.useState(_.shuffle(words));
   const [mode, setMode] = React.useState("quiz");
 
@@ -69,6 +69,7 @@ export default function WordsGame({ navigation, words }) {
   }, [mode]);
   const retry = React.useCallback(() => {
     console.log(words);
+
     setQuizList(_.shuffle(words));
     setMode("quiz");
   }, [quizList]);
@@ -92,6 +93,7 @@ export default function WordsGame({ navigation, words }) {
           }}
         />
       </HeaderContainer>
+
       <Contents>
         {quizList.length ? (
           <Quiz>
@@ -101,6 +103,7 @@ export default function WordsGame({ navigation, words }) {
           <Quiz>게임 끝</Quiz>
         )}
       </Contents>
+
       {quizList.length ? (
         <Button onPress={onPress}>
           <Label>{mode === "quiz" ? "정답확인" : "새문제"}</Label>

@@ -6,8 +6,6 @@ import Button from "../components/Button";
 import styled from "styled-components/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import _ from "lodash";
-import produce from "immer";
-import WordList from "./WordsList";
 
 const ListItem = styled.TouchableOpacity`
 width:100%

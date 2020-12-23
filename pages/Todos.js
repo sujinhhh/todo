@@ -104,20 +104,6 @@ export default function Todos({ navigation }) {
       >
         <HeaderContainer>
           <Title> ♥️ 오늘의 할일 ♥️ </Title>
-          <Button
-            title="일기장"
-            color="#8c9eff"
-            onPress={() => {
-              navigation.navigate("List");
-            }}
-          />
-          <Button
-            title="Game"
-            color="#ff1744"
-            onPress={() => {
-              navigation.navigate("Play");
-            }}
-          />
         </HeaderContainer>
 
         <Contents>

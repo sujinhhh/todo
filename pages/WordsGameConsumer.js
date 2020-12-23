@@ -4,6 +4,10 @@ import { FlatList } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Button from "../components/Button";
 import styled from "styled-components/native";
+import WordsInput from "./InputWordsGame";
+import { WordsContextProvider } from "./WordsContextProvider";
+import WordsGame from "./WordsGame";
+import WordsLists from "./WordsLists";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -38,11 +42,12 @@ const WordsListContents = styled.View`
   margin-right: 10px;
 `;
 const WordButton = styled.Button``;
-export const Words = ({ name }) => {
+const WordsGameConsumer = () => {
   return (
-    <Container>
-      <Title> 초성게임 단어 추가하기 </Title>
-      <Label>{name}</Label>
-    </Container>
+    <WordsContextProvider>
+      <WordsGame />
+    </WordsContextProvider>
   );
 };
+
+export { WordsGameConsumer };
