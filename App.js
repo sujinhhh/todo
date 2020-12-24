@@ -3,22 +3,18 @@ import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import List from "./pages/List";
+import DairyList from "./pages/DairyList";
 import Detail from "./pages/Detail";
 import Form from "./pages/Form";
 import Todos from "./pages/Todos";
 import Play from "./pages/Play";
 import WordsLists from "./pages/WordsLists";
 import { WordsGameConsumer } from "./pages/WordsGameConsumer";
-import InputWordsGame from "./pages/InputWordsGame";
+import WordsGame from "./pages/WordsGame";
 
 const Drawer = createDrawerNavigator();
-const Stack = createDrawerNavigator();
-const tobTab = createMaterialTopTabNavigator();
-const bottomTab = createMaterialBottomTabNavigator();
+const Stack = createStackNavigator();
 
 function App() {
   return (
@@ -30,20 +26,16 @@ function App() {
           options={{ title: "오늘의 할일" }}
         />
         <Drawer.Screen
-          name="List"
-          component={List}
+          name="DairyList"
+          component={DairyList}
           options={{ title: "일기장" }}
         />
         <Drawer.Screen
           name="Play"
           component={Play}
-          options={{ title: "Fun?Fun!" }}
+          options={{ title: "게임 리스트" }}
         />
-        <Stack.Screen
-          name="InputWordsGame"
-          component={InputWordsGame}
-          options={{ title: "초성단어 넣기" }}
-        />
+
         <Stack.Screen
           name="WordsLists"
           component={WordsLists}
@@ -52,9 +44,9 @@ function App() {
         <Stack.Screen
           name="Detail"
           component={Detail}
-          options={{ title: "일기보기" }}
+          options={{ title: "일기자세히보기" }}
         />
-        <Drawer.Screen
+        <Stack.Screen
           name="WordsGameConsumer"
           component={WordsGameConsumer}
           options={{ title: "게임하기" }}
@@ -64,6 +56,11 @@ function App() {
           component={Form}
           options={{ title: "일기 작성" }}
         />
+        {/* <Stack.Screen
+          name="WordsGame"
+          component={WordsGame}
+          options={{ title: "일기 작성" }}
+        /> */}
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -1,54 +1,59 @@
 import React, { useState, useContext } from "react";
 import _ from "lodash";
-import {
-  View,
-  KeyboardAvoidingView,
-  TextInput,
-  StyleSheet,
-  Text,
-  Platform,
-  TouchableWithoutFeedback,
-  Button,
-  Keyboard,
-} from "react-native";
+import { Platform } from "react-native";
 import styled from "styled-components/native";
+import Constants from "expo-constants";
 import { WordsContext } from "./WordsContextProvider";
 
 const Container = styled.SafeAreaView`
   flex: 1;
-  margin-top: 50px;
 `;
-
-const Label = styled.Text`
-  font-size: 15px;
-  font-weight: bold;
-  color: black;
-  margin-bottom: 12px;
-`;
-
-const Input = styled.TextInput`
-  width: 100%;
-  border: 1px solid #ea80fc;
-  padding: 8px;
-  font-size: 15px;
-  margin-bottom: 12px;
+const Contents = styled.ScrollView`
+  flex: 1;
 `;
 
 const Title = styled.Text`
-  font-size: 20px;
+  font-size: 30px;
   color: dodgerblue;
   border: 1px solid dodgerblue;
 `;
-const WordsListContents = styled.View`
+
+const HeaderContainer = styled.View`
   flex-direction: row;
-  justify-content: space-between;
-  padding: 10px;
-  margin-left: 10px;
+  margin: 20px auto;
+`;
+
+const InputContainer = styled.View`
+  flex-direction: row;
+  padding: 8px;
+`;
+const Input = styled.TextInput`
+  border: 1px solid #e5e5e5;
+  flex: 1;
+`;
+
+const KeyboardAvoidingView = styled.KeyboardAvoidingView`
+  flex: 1;
+  padding-top: ${Constants.statusBarHeight}px;
+`;
+
+const Button = styled.Button``;
+
+const TodoItem = styled.View`
+  flex-direction: row;
+  align-items: center;
   margin-right: 10px;
 `;
-const WordButton = styled.Button``;
+const TodoItemText = styled.Text`
+  font-size: 20px;
+  flex: 1;
+  padding: 10px;
+`;
+const TotoItemButton = styled.Button`
+  align-items: flex-end;
+`;
 
-export default function InputWordsGame() {
+export default function InputWordsGame({ navigation }) {
   const [words, setWords] = useContext(WordsContext);
   const [inputWord, setInputWord] = useState("");
 
@@ -56,63 +61,53 @@ export default function InputWordsGame() {
     if (inputWord === "") {
       return;
     }
-
     setWords([...words, inputWord]);
     setInputWord("");
   };
 
+  const handleRemove = (index) => {
+    // e.currentTarget._nativeTag
+    const a = index;
+
+    const b = _.pullAt(words, [a]);
+    // console.log(b);
+    console.log(b);
+    return setWords([...words]);
+  };
+
   return (
     <Container>
-      <View style={styles.container}>
-        <Text style={styles.header}>Header</Text>
-        {words.map((item) => {
-          return <Title key={Math.random()}>{item}</Title>;
-        })}
-      </View>
       <KeyboardAvoidingView
-        style={styles.inner}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View>
-            <TextInput
-              style={styles.textInput}
-              placeholder="초성 글자 넣기"
-              value={inputWord}
-              onChangeText={(value) => setInputWord(value)}
-            />
-            <View style={styles.btnContainer}>
-              <Button title="추가" onPress={addWords} />
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
+        <HeaderContainer>
+          <Title> 초성글자 넣기</Title>
+        </HeaderContainer>
+        <Contents>
+          {words.map((item, index) => {
+            return (
+              <TodoItem key={index}>
+                <TodoItemText>{item}</TodoItemText>
+                <TotoItemButton
+                  color="#b388ff"
+                  title="삭제"
+                  onPress={() => handleRemove(index)}
+                />
+              </TodoItem>
+            );
+          })}
+        </Contents>
+
+        <InputContainer>
+          <Input
+            placeholder="초성 글자 넣기"
+            value={inputWord}
+            onChangeText={(value) => setInputWord(value)}
+          />
+
+          <Button title="추가" onPress={addWords} />
+        </InputContainer>
       </KeyboardAvoidingView>
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginBottom: 20,
-  },
-  inner: {
-    padding: 24,
-    flex: 2,
-    justifyContent: "space-around",
-  },
-  header: {
-    fontSize: 36,
-    marginBottom: 20,
-  },
-  textInput: {
-    height: 40,
-    borderColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 36,
-  },
-  btnContainer: {
-    backgroundColor: "white",
-    marginTop: 12,
-  },
-});

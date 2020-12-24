@@ -17,7 +17,7 @@ export default function Play({ navigation }) {
   return (
     <Container>
       <Contents>
-        <Title onPress={() => navigation.navigate("WordsGame")}>
+        <Title onPress={() => navigation.navigate("WordsGameConsumer")}>
           <Text>초성게임 GoGo</Text>
         </Title>
       </Contents>

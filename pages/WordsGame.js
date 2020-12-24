@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { reducer } from "./reducer";
 import _ from "lodash";
 import { WordsContext } from "./WordsContextProvider";
 
@@ -69,7 +68,6 @@ export default function WordsGame({ navigation }) {
   }, [mode]);
   const retry = React.useCallback(() => {
     console.log(words);
-
     setQuizList(_.shuffle(words));
     setMode("quiz");
   }, [quizList]);
@@ -89,7 +87,7 @@ export default function WordsGame({ navigation }) {
           title="초성단어 넣기"
           color="#8c9eff"
           onPress={() => {
-            navigation.navigate("WordsList");
+            navigation.navigate("WordsLists");
           }}
         />
       </HeaderContainer>
